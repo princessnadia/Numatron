@@ -1,5 +1,6 @@
 # Markov Chain, do not use, doesnt work, probably.
 # Made by vifino
+# To do: fix! -Marle
 class Markov
 	attr_reader :parts,:startParts
 	def initialize()
