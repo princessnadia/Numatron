@@ -27,7 +27,7 @@ def shcmd(args="",nick="",chan="",rawargs="",pipeargs=nil)
 			return o
 		end
 	else
-		return "Errrr.... No?"
+		return "Uh, no?"
 	end
 end
 addCommand("sh",:shcmd,"Execute shell commands, Admin only!")
