@@ -5,9 +5,9 @@ $commandNP ||= Hash.new()
 $helpdata ||= Hash.new()
 $variables ||= Hash.new()
 def addCommand(nme,val,help="No help for this command available.",nopipes=false)
-	$commands[nme]=val
-	$commandNP[nme]=nopipes
-	$helpdata[nme]=help
+	$commands[nme.downcase]=val
+	$commandNP[nme.downcase]=nopipes
+	$helpdata[nme.downcase]=help
 end
 def help(topicorig="",nick="",chan="",rawargs="",pipeargs="")
 	if not topicorig.empty? then
@@ -181,10 +181,10 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 		begin
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
-				if ret.to_s.length > 200 then
+				if ret.to_s.chomp.gsub(/[\r\n]+/," "*80).length > 200 then
 					@bot.msg(chan,"> Output: "+putHB(sanitizer(ret.to_s)))
 				else
-					@bot.msg(chan,"> "+sanitizer(ret.to_s))
+					@bot.msg(chan,"> "+sanitizer(ret.to_s.chomp.gsub(/[\r\n]+/,"\n| ")))
 				end
 			end
 		rescue Exception => detail

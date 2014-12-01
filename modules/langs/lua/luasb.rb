@@ -90,6 +90,7 @@ do
 					out=out..table.concat({...})
 				end,
 			},
+			coroutine=coroutine,
 			channel = "",
 			nick = "",
 			pcall = pcall,
@@ -108,7 +109,9 @@ do
 		for k,v in pairs(sbox) do
 			if type(v)=="table" then
 				for n,l in pairs(v) do
-					tsbox[l]=true
+					if type(v)=="function" then
+						tsbox[l]=true
+					end
 				end
 			elseif type(v)=="function" then
 				tsbox[v]=true
@@ -147,6 +150,7 @@ do
 end
 '
 	@luasb[:to_ruby] = false
+	return "Sandbox Reset!"
 end
 luasb_reset
 def luasb(args, nick, chan,rawargs="",pipeargs)
@@ -159,6 +163,9 @@ def luasb(args, nick, chan,rawargs="",pipeargs)
 			@luasb.eval('ths=nil')
 			if !pipeargs.to_s.empty? then
 				@luasb["ths"]=pipeargs.to_s
+				if rawargs.to_s.empty? then
+					@luasb["code"]=pipeargs.to_s
+				end
 			end
 			Timeout::timeout(0.5) do
 				returnval = @luasb.eval("return (lua(ths,code))")
