@@ -68,7 +68,7 @@ def reload(args,nick,chan,rawargs="",pipeargs="")
 	if isPrivileged? nick then
 		runDir "core"
 		runDir "modules"
-		"Reloaded."
+		"Reloaded successfully!"
 	end
 end
 addCommand("reload",:reload,"Reloads the codebase, Admin only!")
