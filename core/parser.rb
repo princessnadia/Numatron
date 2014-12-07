@@ -137,19 +137,19 @@ def commandRunner(cmd,nick,chan)
 				if $commands[func] then
 					if runtimes==0 then # first command
 						if $commands[func].is_a?(Method) then
-							retLast = $commands[func].call(nargs, nick, chan, args, nil)
+							retLast = $commands[func].call(nargs, nick, chan, args)
 						elsif $commands[func].class == Proc then
-							retLast = $commands[func].call(nargs, nick, chan, args, nil)
+							retLast = $commands[func].call(nargs, nick, chan, args)
 						elsif $commands[func].class == Symbol then
-							retLast = self.send($commands[func], nargs, nick, chan, args, nil)
+							retLast = self.send($commands[func], nargs, nick, chan, args)
 						elsif
 							retLast = $commands[func]
 						end
 					else
 						if $commands[func].is_a?(Method) then
-							retLast = $commands[func].call(nargs, chan, args, retLast)
+							retLast = $commands[func].call(nargs, nick, chan, args, retLast)
 						elsif $commands[func].class == Proc then
-							retLast = $commands[func].call(nargs, chan, args, retLast)
+							retLast = $commands[func].call(nargs, nick, chan, args, retLast)
 						elsif $commands[func].class == Symbol then
 							retLast = self.send($commands[func], nargs, nick, chan, args, retLast)
 						elsif
@@ -181,7 +181,7 @@ def commandParser(cmd,nick,chan) # This is the entry point.
 		begin
 			ret=commandRunner(cmd, nick, chan)
 			if ret then
-				if ret.to_s.chomp.gsub(/[\r\n]+/," "*80).length > 200 then
+				if ret.to_s.chomp.gsub(/[\r\n]+/," "*60).length > 200 then
 					@bot.msg(chan,"> Output: "+putHB(sanitizer(ret.to_s)))
 				else
 					@bot.msg(chan,"> "+sanitizer(ret.to_s.chomp.gsub(/[\r\n]+/,"\n| ")))

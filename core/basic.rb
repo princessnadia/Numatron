@@ -83,3 +83,17 @@ addCommand("array",->(args,nick,chan,rawargs="",pipeargs=""){if not args.class==
 addCommand("nick",->(args="",nick="",chan="",rawargs="",pipeargs=""){nick},"Returns your nick.")
 addCommand("chan",->(args="",nick="",chan="",rawargs="",pipeargs=""){chan},"Returns the channel you are currently in.")
 addCommand("channel",->(args="",nick="",chan="",rawargs="",pipeargs=""){chan},"Returns the channel you are currently in.")
+def msg_cmd(args="",nick="",chan="",rawargs="",pipeargs="")
+	if isPrivileged? nick then
+		destination=rawargs.to_s.split(" ",2).first||chan
+		if !rawargs.split(" ",2).last.to_s.empty? then
+			@bot.msg(destination, rawargs.split(" ",2).last.to_s)
+		else
+			@bot.msg(destination, pipeargs.to_s)
+		end
+		return nil
+	else
+		"Sorry, but you are not allowed to do that!"
+	end
+end
+addCommand("msg",:msg_cmd, "Message people. And things.")
